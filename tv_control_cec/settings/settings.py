@@ -8,8 +8,8 @@ class Mqtt:
 
 
 class Messages:
-    POWER_ON = 'power_on'
-    STANDBY = 'standby'
+    POWER_ON = Mqtt.TOPIC + 'power_on'
+    STANDBY = Mqtt.TOPIC + 'standby'
 
 
 class OSCommands:
