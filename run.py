@@ -9,7 +9,7 @@ if __name__ == '__main__':
     dt_string = now.strftime("%Y_%m_%d__%H_%M_%S")
 
     logging.basicConfig(
-        filename=f'/home/karol/Projects/tv_control_cec/logs/{dt_string}.log',
+        filename=f'/home/pi/projects/tv_control_cec/logs/{dt_string}.log',
         filemode='a',
         format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
         datefmt='%H:%M:%S',
