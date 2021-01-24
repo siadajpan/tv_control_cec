@@ -8,7 +8,8 @@ import paho.mqtt.client as mqtt
 from tv_control_cec.errors.incorrect_topic_exception import \
     IncorrectTopicException
 from tv_control_cec.errors.tv_exception import TVException
-from tv_control_cec.messages.empty import Empty
+
+from tv_control_cec.messages.empty_tv_action import EmptyTVAction
 from tv_control_cec.messages.tv_action import TVAction
 from tv_control_cec.messages.tv_on import TVOn
 from tv_control_cec.messages.tv_standby import TVStandby
@@ -68,4 +69,4 @@ class MessageManager(Thread):
     def stop(self):
         self._logger.debug('Stopping')
         self._stop_thread = True
-        self._message_queue.put(Empty())
+        self._message_queue.put(EmptyTVAction())
