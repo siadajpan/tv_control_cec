@@ -36,7 +36,11 @@ class MessageManager(Thread):
         try:
             self._logger.debug(f'Executing message {message} with '
                                f'payload {payload}')
+            if payload == '':
+                payload = None
+
             message.execute(payload)
+
         except Exception as ex:
             self._logger.error(f'Error raised during execution of message. '
                                f'Exception: {ex}')

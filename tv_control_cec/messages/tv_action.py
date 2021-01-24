@@ -11,10 +11,7 @@ class TVAction:
         self.logger = logging.getLogger(self.__class__.__name__)
 
     def execute(self, *args, **kwargs):
-        if args == b'':
-            args = None
-
-        if args:
+        if args[0]:
             raise NotImplementedError('Execution of TVAction with arguments '
                                       'should be overridden')
 
