@@ -34,6 +34,8 @@ class MessageManager(Thread):
     def execute_message(self, topic: str, payload: str):
         message = self.check_message(topic)
         try:
+            self._logger.debug(f'Executing message {message} with '
+                               f'payload {payload}')
             message.execute(payload)
         except Exception as ex:
             self._logger.error(f'Error raised during execution of message. '
