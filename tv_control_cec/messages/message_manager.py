@@ -32,7 +32,13 @@ class MessageManager(Thread):
         self._publish_method(topic, payload)
 
     def execute_message(self, topic: str, payload: str):
-        message = self.check_message(topic)
+        try:
+            message = self.check_message(topic)
+        except IncorrectTopicException:
+            self._logger.info(f'Message with topic: {topic}, payload: '
+                              f'{payload} will not be executed')
+            return
+
         try:
             self._logger.debug(f'Executing message {message} with '
                                f'payload {payload}')
@@ -44,7 +50,6 @@ class MessageManager(Thread):
         except Exception as ex:
             self._logger.error(f'Error raised during execution of message. '
                                f'Exception: {ex}')
-            raise ex
 
     def check_message(self, topic) -> TVAction:
         self._logger.debug(f'Searching for message topic: {topic}')
