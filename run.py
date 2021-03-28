@@ -1,8 +1,11 @@
 import logging
 from datetime import datetime
 
-from tv_control_cec.messages.message_manager import MessageManager
-from tv_control_cec.mqtt_client.mqtt_client import MQTTClient
+from mqtt_utils.message_manager import MessageManager
+
+from tv_control_cec.messages.tv_on import TVOn
+from tv_control_cec.messages.tv_standby import TVStandby
+from tv_control_cec.settings import settings
 
 if __name__ == '__main__':
     now = datetime.now()
@@ -15,15 +18,16 @@ if __name__ == '__main__':
         datefmt='%H:%M:%S',
         level=logging.DEBUG)
 
-    logging.info('Starting mqtt client')
-    client = MQTTClient()
-    client.connect()
+    MESSAGES = [TVOn(), TVStandby()]
+    message_manager = MessageManager(MESSAGES)
+    message_manager.update_credentials(settings.Mqtt.USERNAME,
+                                       settings.Mqtt.PASSWORD)
+    message_manager.connect(settings.Mqtt.ADDRESS, settings.Mqtt.PORT)
 
     logging.info('Starting message manager')
-    message_manager = MessageManager(client.message_queue, client.publish)
     message_manager.start()
 
     try:
-        client.loop_forever()
+        message_manager.loop_forever()
     except KeyboardInterrupt:
         message_manager.stop()

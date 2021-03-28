@@ -1,13 +1,15 @@
 import logging
 import os
 
+from mqtt_utils.messages.mqtt_message import MQTTMessage
 
-class TVAction:
-    def __init__(self, topic: str, command: str, priority=5):
+
+class TVAction(MQTTMessage):
+    def __init__(self, topic: str, command: str):
+        super().__init__(topic)
         self.topic: str = topic
         self.method = os.system
         self.command: str = command
-        self.priority = priority
         self.logger = logging.getLogger(self.__class__.__name__)
 
     def execute(self, *args, **kwargs):
@@ -19,4 +21,5 @@ class TVAction:
         self.method(self.command)
 
     def __repr__(self):
-        return f"method: {self.method}, {self.command}"
+        out = super().__repr__()
+        return f"{out}, method: {self.method}, {self.command}"
